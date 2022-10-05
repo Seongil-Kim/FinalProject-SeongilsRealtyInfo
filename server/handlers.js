@@ -17,7 +17,39 @@ const options = {
 
 const dbAccess={
     dbName: "Seongils_RealtyInfo",
-    collectionName: "SearchArea"
+    collectionNameSearchArea: "SearchArea",
+    collectionNameFeedBack: "UserFeedBack"
+}
+
+// use this package to generate unique ids: https://www.npmjs.com/package/uuid
+const { v4: uuidv4 } = require("uuid");
+
+const testGet= async (req, res) => {
+  
+  console.log("test");
+
+  const options = {
+    method: 'GET',
+    url: 'https://realty-in-us.p.rapidapi.com/properties/v2/detail',
+    qs: {property_id: 'M8224547808'},
+    headers: {
+      'X-RapidAPI-Key': XRapidAPIKey,
+      'X-RapidAPI-Host': 'realty-in-us.p.rapidapi.com',
+      useQueryString: true
+    }
+  };
+  
+  const propertyDetail=await request(options, function (error, response, body) {
+    if (error) throw new Error(error);
+  
+    // console.log(body);
+  });
+
+  console.log("server property detail: ", JSON.parse(propertyDetail));
+
+  propertyDetail
+        ? res.status(200).json({ status: 200, propertyDetail: JSON.parse(propertyDetail) })
+        : res.status(404).json({ status: 404, message: "City List Not Found" });
 }
 
 const getCityList = async (req, res) => {
@@ -34,7 +66,7 @@ const getCityList = async (req, res) => {
         
         const db = client.db(dbAccess.dbName);
               
-        const cityList=await db.collection(dbAccess.collectionName).find().toArray();
+        const cityList=await db.collection(dbAccess.collectionNameSearchArea).find().toArray();
 
         // console.log("city list: ", cityList); 
   
@@ -61,15 +93,14 @@ const getRealtyInfoFeedOnCity= async (req, res) =>{
         method: 'GET',
         url: 'https://realty-in-us.p.rapidapi.com/properties/v2/list-for-sale',
         qs: {
-          city: 'San Jose',
-          state_code: 'CA',
+          city: city,
+          state_code: stateCode,
           offset: '0',
           limit: '10',
           sort: 'relevance'
         },
         headers: {
-        'X-RapidAPI-Key': XRapidAPIKey,
-        // 'X-RapidAPI-Key': '0494b40be9msh640180524ca3679p12f607jsnd957a78e053a',
+        'X-RapidAPI-Key': XRapidAPIKey,        
         'X-RapidAPI-Host': 'realty-in-us.p.rapidapi.com',
           useQueryString: true
         }
@@ -85,23 +116,90 @@ const getRealtyInfoFeedOnCity= async (req, res) =>{
 
     // const realtyFeed=await request(options);
 
-    console.log("realtyFeed: ", realtyFeed);
+    // console.log("realtyFeed: ", JSON.parse(realtyFeed));
 
     realtyFeed ?
-          res.status(200).json({ status: 200, realtyFeed: realtyFeed })
+          res.status(200).json({ status: 200, realtyFeed: JSON.parse(realtyFeed) })
         : res.status(404).json({ status: 404, message: "Realty Feed Not Found" });
     
 }
 
 const calculMortgage= async (req, res) =>{
     const calculBaseObj=req.body;
+    console.log("serverSide Calcul Obj: ", calculBaseObj);
+
+    const options = {
+      method: 'GET',
+      url: 'https://realty-in-us.p.rapidapi.com/mortgage/v2/calculate',
+      qs: {
+        home_insurance: req.body.insuranceCost,
+        property_tax_rate: req.body.propertyTaxRate,
+        down_payment: req.body.downPayment,
+        price: req.body.realtyPrice,
+        term: req.body.repayTerm,
+        rate: req.body.interestRate,
+        hoa_fees: req.body.hoaFee,
+        apply_veterans_benefits: 'false'
+      },
+      headers: {
+        'X-RapidAPI-Key': XRapidAPIKey,
+        'X-RapidAPI-Host': 'realty-in-us.p.rapidapi.com',
+        useQueryString: true
+      }
+    };
+    
+    const mortgageCalResult=await request(options, function (error, response, body) {
+      if (error) throw new Error(error);
+    
+      console.log("body: ", body);
+    });
+
+    console.log("fetch response: ", JSON.parse(mortgageCalResult));
+
+    mortgageCalResult ?
+          res.status(200).json({ status: 200, mortgageCalResult: JSON.parse(mortgageCalResult) })
+        : res.status(404).json({ status: 404, message: "Calculation Result Not Found" });
 }
 
 const saveUserFeedback= async (req, res) =>{
-    const userFeedbackObj=req.body;
+    
+    console.log("userFeedbackObj: ", req.body);
+
+    const generatedId=uuidv4();
+
+    const feedbackObj={_id: generatedId, ...req.body};
+
+    const client = new MongoClient(MONGO_URI, options);
+
+    try {
+        // creates a new client
+        
+      
+        await client.connect();
+        
+        const db = client.db(dbAccess.dbName);
+              
+        const feedbackSave=await db.collection(dbAccess.collectionNameFeedBack).insertOne(
+          feedbackObj
+         );
+
+        // console.log("message: ", feedbackSave); 
+  
+        feedbackSave
+        ? res.status(200).json({ status: 200, message: "We received your message." })
+        : res.status(404).json({ status: 404, message: "City List Not Found" });
+  
+    } 
+    catch (err) {
+        res.status(500).json({ status: 500, msg: "Server Error" });
+    }
+    finally {
+        client.close();
+    }  
 }
 
 module.exports = {
+    testGet,
     getCityList,
     getRealtyInfoFeedOnCity,
     calculMortgage,

@@ -22,6 +22,8 @@ export default createGlobalStyle`
       --button-font-color: #FFFFFF;
       --button-font-size: 20px;
       --button-border-radius: 10px;
+      
+      --menu-button-background-color: #5518DA;
 
       --logsign-button-width: 150px;
 
@@ -31,8 +33,7 @@ export default createGlobalStyle`
       
       --front-show-panel-width: 800px;
       --front-show-panel-height: 550px;
-      
-      
+            
       --front-page-background-image: '/images/photo_montreal.jpg';
     
     }

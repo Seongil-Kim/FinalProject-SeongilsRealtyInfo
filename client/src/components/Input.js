@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-const Input = ({type, placeholder, name, id, required, handleChange}) => {
+const Input = ({type, placeholder, name, id, value, required, handleChange, readonly}) => {
 
     
     
@@ -10,6 +10,7 @@ const Input = ({type, placeholder, name, id, required, handleChange}) => {
             placeholder={placeholder} 
             required={required} 
             id={id}
+            value={value}
             onChange={(e) => handleChange(name, e.target.value)}
         />
     )

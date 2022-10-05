@@ -17,7 +17,7 @@ const NavBar=({isUser})=>{
 
     // const isUser=isAuthenticated && user;
 
-    console.log("test: ", {isAuthenticated, loginWithRedirect, logout, user, isLoading});
+    // console.log("test: ", {isAuthenticated, loginWithRedirect, logout, user, isLoading});
 
     return (
         <>
@@ -25,12 +25,13 @@ const NavBar=({isUser})=>{
         
             {!isUser ?
                 
-                // <LogSignInOutButton backColor={var(--button-background-color)} onClick={loginWithRedirect}>Login/Signup</LogSignInOutButton>       
-                <LogSignInOutButton backColor={"#8D45FA"} onClick={loginWithRedirect}>Login/Signup</LogSignInOutButton>
+                <LogSignInOutButton backColor={"Login"} onClick={loginWithRedirect}>Login/Signup</LogSignInOutButton>       
+                // <LogSignInOutButton backColor={"#8D45FA"} onClick={loginWithRedirect}>Login/Signup</LogSignInOutButton>
             :   
                 <> 
                     <NavBarMenu />
-                    <LogSignInOutButton backColor={"blue"} onClick={()=>{
+                    {/* <LogSignInOutButton backColor={"blue"} onClick={()=>{ */}
+                    <LogSignInOutButton backColor={"Logout"} onClick={()=>{
                             logout({returnTo: window.location.origin})
                     }}>Logout</LogSignInOutButton>
                 </>
@@ -60,7 +61,7 @@ const LogSignInOutButton=styled.button`
     width: var(--logsign-button-width);
     height: var(--button-height);
 
-    background-color: ${p=>p.backColor};
+    background-color: ${p=>p.backColor==="Login"? "var(--button-background-color)" : "blue"};
 
     font-size: var(--button-font-size);
     font-weight: bold;

@@ -1,11 +1,14 @@
 import React from 'react';
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, useNavigate} from "react-router-dom";
 
 import GlobalStyles from "./GlobalStyles";
 import styled from "styled-components";
 
-// import BackgroundImage from '/images/photo_montreal.jpg';
+import { useState } from "react";
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+// import BackgroundImage from '/images/photo_montreal.jpg';
 import NavBar from "./NavBar";
 import FrontShowBeforeLogin from "./FrontShowBeforeLogin";
 import RealtySearch from "./RealtySearch";
@@ -14,20 +17,18 @@ import UserFeedback from "./UserFeedback";
 
 import { useAuth0 } from '@auth0/auth0-react';
 
-const handleSubmit = (e, formData) => {
-  
-}
-
 const App = () => {
 
   const 
   {
       isAuthenticated,  
-      user,        
+      user,
+      isLoading 
   } = useAuth0();
 
-  const isUser=isAuthenticated && user;
+  console.log("isLoading: ", isLoading);
 
+  const isUser=isAuthenticated && user; 
   
 
   return ( 
@@ -39,8 +40,12 @@ const App = () => {
           <NavBar isUser={isUser}/>
         </NavBarDiv>
         
-        {
-          !isUser ?          
+        { isLoading ? 
+          <CircularProgressDiv>
+            <StyledCircularProgress/>
+          </CircularProgressDiv>
+          :
+          (!isUser ?          
           <BackgroundDiv>
             <FrontShowBeforLoginDiv>
               <Routes>
@@ -52,11 +57,15 @@ const App = () => {
           <FrontShowAfterLoginDiv>                
               <Routes>
                 <Route path="/" element={<RealtySearch />} />
-                <Route path="/calcul-mortgage" element={<CalculationMortgage handleSubmit={handleSubmit}/>} />
-                <Route path="/userfeedback" element={<UserFeedback handleSubmit={handleSubmit}/>} />                
+                {/* <Route path="/calcul-mortgage" element={<CalculationMortgage handleSubmit={handleSubmit}/>} /> */}
+                <Route path="/calcul-mortgage" element={<CalculationMortgage />} />
+                {/* {mortgageCalResult &&  */}
+                  {/* // <Route path="/calcul-mortgage/result" element={<CalculationMortgageResult calMortgageResult={calMortgageResult}/>} />} */}
+                {/* <Route path="/userfeedback" element={<UserFeedback handleSubmit={handleSubmit}/>} /> */}
+                <Route path="/userfeedback" element={<UserFeedback user={user}/>} />
               </Routes>
             
-          </FrontShowAfterLoginDiv>         
+          </FrontShowAfterLoginDiv>) 
          
         }
         </Router>
@@ -106,7 +115,7 @@ const BackgroundDiv = styled.div`
   justify-content: center;
   align-items: center; 
 
-  border: 1px solid black;
+  /* border: 1px solid black; */
 
   /* background-image: url(--front-page-background-image); */
   background-image: url('/images/photo_montreal.jpg');
@@ -141,6 +150,22 @@ const FrontShowAfterLoginDiv=styled.div`
   align-items: center; 
 `
 
+const CircularProgressDiv=styled.div`
+  width: 100%;
+  height: 90%;
+  box-sizing: border-box;
+  
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center; 
+`
+
+const StyledCircularProgress=styled(CircularProgress)`
+  width: 100px;
+  height: 100px;
+`
 
 
 export default App;

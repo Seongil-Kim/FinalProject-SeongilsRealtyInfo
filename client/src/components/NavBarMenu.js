@@ -9,7 +9,7 @@ const NavBarMenu=()=>{
         <NavBarMenuDiv>
             <MenuUl>
                 <MenuLI>                    
-                    <StyledLink to="/" active="true">Property Search</StyledLink>                    
+                    <StyledLink to="/" active="true">Property Search</StyledLink>
                 </MenuLI>
                 <MenuLI>                    
                     <StyledLink to="/calcul-mortgage">Calculation Mortgage</StyledLink>                    
@@ -39,7 +39,7 @@ const MenuUl=styled.ul`
 `
 
 const MenuLI=styled.li`
-    background-color: #5518DA;
+    background-color: var(--menu-button-background-color);
     color: white;    
     padding: 10px 20px;
     margin: 0px 10px;

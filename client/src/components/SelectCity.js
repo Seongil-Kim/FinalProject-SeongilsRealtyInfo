@@ -7,7 +7,7 @@ import {CityContext} from "./CityContext";
 
 
 
-const SelectCity=({showPropertyInCity})=>{
+const SelectCity=({showPropertyListInCity})=>{
 
     // const [cityList,setCityList]=useState([]);
 
@@ -30,7 +30,7 @@ const SelectCity=({showPropertyInCity})=>{
     return (
         <>
             {cityList &&
-                <CityListCombo onChange={showPropertyInCity}>
+                <CityListCombo onChange={showPropertyListInCity}>
                     {cityList.map((cityInfo)=>{
                         return <option>{cityInfo.city}</option>
                     })}
