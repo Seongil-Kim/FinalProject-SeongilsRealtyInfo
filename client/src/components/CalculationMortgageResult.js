@@ -6,7 +6,9 @@ const CalculationMortgageResult=({calMortgageResult})=>{
 
     return (
         <CalMortgageResultDiv>
-            {calMortgageResult.monthly_payment}
+            Loan Amount: {calMortgageResult.loan_amount}<br/>
+            Monthly Payment: {calMortgageResult.monthly_payment}<br/>
+            Total Payment: {calMortgageResult.total_payment}
         </CalMortgageResultDiv>
     );
 

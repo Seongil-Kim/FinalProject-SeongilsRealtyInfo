@@ -23,7 +23,7 @@ const App = () => {
   {
       isAuthenticated,  
       user,
-      isLoading 
+      isLoading
   } = useAuth0();
 
   console.log("isLoading: ", isLoading);
