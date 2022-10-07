@@ -5,9 +5,10 @@ const helmet = require("helmet");
 const morgan = require('morgan');
 
 const {
-    testGet,
+    getRealtyInfoDetail,
     getCityList,
     getRealtyInfoFeedOnCity,
+    getRateInfo,
     calculMortgage,
     saveUserFeedback
   } = require("./handlers");
@@ -25,10 +26,11 @@ express()
     //     }
     // )
     
-    //get city list which <<Seongil's RealtyInfo>> provides services.
-    .get("/api/test", testGet)
+    //get city list which <<Seongil's RealtyInfo>> provides services.    
     .get("/db/city-list", getCityList)
     .get("/api/realty-info-feed/:city", getRealtyInfoFeedOnCity)
+    .get("/api/realty-info-detail/:propertyId", getRealtyInfoDetail)
+    .get("/api/mortgage/check-rate", getRateInfo)
     .post("/api/calcul-mortgage",calculMortgage)
     .post("/db/user-feedback", saveUserFeedback)
 

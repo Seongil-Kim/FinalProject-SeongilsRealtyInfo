@@ -24,34 +24,6 @@ const dbAccess={
 // use this package to generate unique ids: https://www.npmjs.com/package/uuid
 const { v4: uuidv4 } = require("uuid");
 
-const testGet= async (req, res) => {
-  
-  console.log("test");
-
-  const options = {
-    method: 'GET',
-    url: 'https://realty-in-us.p.rapidapi.com/properties/v2/detail',
-    qs: {property_id: 'M8224547808'},
-    headers: {
-      'X-RapidAPI-Key': XRapidAPIKey,
-      'X-RapidAPI-Host': 'realty-in-us.p.rapidapi.com',
-      useQueryString: true
-    }
-  };
-  
-  const propertyDetail=await request(options, function (error, response, body) {
-    if (error) throw new Error(error);
-  
-    // console.log(body);
-  });
-
-  console.log("server property detail: ", JSON.parse(propertyDetail));
-
-  propertyDetail
-        ? res.status(200).json({ status: 200, propertyDetail: JSON.parse(propertyDetail) })
-        : res.status(404).json({ status: 404, message: "City List Not Found" });
-}
-
 const getCityList = async (req, res) => {
 
 
@@ -124,22 +96,107 @@ const getRealtyInfoFeedOnCity= async (req, res) =>{
     
 }
 
+const getRealtyInfoDetail= async (req, res) => {
+  
+  console.log("parameter: ", req.params.propertyId);
+
+  // Get Property Detail
+  const options = {
+    method: 'GET',
+    url: 'https://realty-in-us.p.rapidapi.com/properties/v2/detail',
+    qs: {property_id: req.params.propertyId},
+    headers: {
+      'X-RapidAPI-Key': XRapidAPIKey,
+      'X-RapidAPI-Host': 'realty-in-us.p.rapidapi.com',
+      useQueryString: true
+    }
+  };
+  
+  const propertyDetail=await request(options, function (error, response, body) {
+    if (error) throw new Error(error);
+  
+    // console.log(body);
+  });
+
+  // console.log("server property detail: ", JSON.parse(propertyDetail));
+
+  propertyDetail
+        ? res.status(200).json({ status: 200, propertyDetail: JSON.parse(propertyDetail) })
+        : res.status(404).json({ status: 404, message: "City List Not Found" });
+}
+
+const getRateInfo=async(req, res) =>{
+  const options = {
+    method: 'GET',
+    url: 'https://realty-in-us.p.rapidapi.com/mortgage/check-rates',
+    qs: {
+      creditScore: 'excellent',
+      points: 'all',
+      loanPurpose: 'purchase',
+      loanTypes: 'ALL',
+      loanPercent: '80.2',
+      propertyPrice: '250000',
+      zip: '90230'
+    },
+    headers: {
+      'X-RapidAPI-Key': '0494b40be9msh640180524ca3679p12f607jsnd957a78e053a',
+      'X-RapidAPI-Host': 'realty-in-us.p.rapidapi.com',
+      useQueryString: true
+    }
+  };
+  
+  const rateInfo=await request(options, function (error, response, body) {
+    if (error) throw new Error(error);
+  
+    // console.log(body);
+  });
+
+  console.log("server rateInfo: ", JSON.parse(rateInfo));
+
+  rateInfo
+        ? res.status(200).json({ status: 200, rateInfo: JSON.parse(rateInfo) })
+        : res.status(404).json({ status: 404, message: "Interest Rate Info Not Found" });
+
+}
+
+
+
 const calculMortgage= async (req, res) =>{
     const calculBaseObj=req.body;
     console.log("serverSide Calcul Obj: ", calculBaseObj);
 
+    // It does not provide the right result. So I change it to other endpoints.
+    // From mortgage/v2/calculate To mortgage/calculate(Deprecating)
+    // const options = {
+    //   method: 'GET',
+    //   url: 'https://realty-in-us.p.rapidapi.com/mortgage/v2/calculate',
+    //   qs: {
+    //     home_insurance: req.body.insuranceCost,
+    //     property_tax_rate: req.body.propertyTaxRate,
+    //     down_payment: req.body.downPayment,
+    //     price: req.body.realtyPrice,
+    //     term: req.body.repayTerm,
+    //     rate: req.body.interestRate,
+    //     hoa_fees: req.body.hoaFee,
+    //     apply_veterans_benefits: 'false'
+    //   },
+    //   headers: {
+    //     'X-RapidAPI-Key': XRapidAPIKey,
+    //     'X-RapidAPI-Host': 'realty-in-us.p.rapidapi.com',
+    //     useQueryString: true
+    //   }
+    // };
+
     const options = {
       method: 'GET',
-      url: 'https://realty-in-us.p.rapidapi.com/mortgage/v2/calculate',
+      url: 'https://realty-in-us.p.rapidapi.com/mortgage/calculate',
       qs: {
-        home_insurance: req.body.insuranceCost,
-        property_tax_rate: req.body.propertyTaxRate,
-        down_payment: req.body.downPayment,
+        hoi: req.body.insuranceCost,
+        tax_rate: req.body.propertyTaxRate,
+        downpayment: req.body.downPayment,
         price: req.body.realtyPrice,
         term: req.body.repayTerm,
-        rate: req.body.interestRate,
-        hoa_fees: req.body.hoaFee,
-        apply_veterans_benefits: 'false'
+        rate: req.body.interestRate
       },
       headers: {
         'X-RapidAPI-Key': XRapidAPIKey,
@@ -198,10 +255,11 @@ const saveUserFeedback= async (req, res) =>{
     }  
 }
 
-module.exports = {
-    testGet,
+module.exports = {  
     getCityList,
     getRealtyInfoFeedOnCity,
+    getRealtyInfoDetail,
+    getRateInfo,
     calculMortgage,
     saveUserFeedback
 };

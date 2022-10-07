@@ -7,10 +7,23 @@ const PropertyItemDetail=({propertyDetailInfoObj})=>{
 
     const navigator=useNavigate();
 
-    fetch("/api/test")
+    // The data from basic property detail which is included in prop will be showed without delay.
+    // But additional data from fetching will be showed later.
+    fetch(`/api/realty-info-detail/${propertyDetailInfoObj.property_id}`)
     .then((res)=>res.json())
     .then((data)=>{            
         console.log("property detail: ", data.propertyDetail);            
+    })        
+    .catch((error)=>{
+        console.error("Error: ", error);
+    // errorHandler("error-receive");
+    });
+
+    // Request loan opportunity and interest info
+    fetch(`/api/mortgage/check-rate`)
+    .then((res)=>res.json())
+    .then((data)=>{            
+        console.log("Rate Info: ", data.rateInfo);            
     })        
     .catch((error)=>{
         console.error("Error: ", error);

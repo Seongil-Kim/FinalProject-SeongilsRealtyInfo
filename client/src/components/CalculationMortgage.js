@@ -46,7 +46,8 @@ const CalculationMortgage=()=>{
         })
         .then((data)=>{
             console.log("data: ", data);
-            setCalMortgageResult(data.mortgageCalResult.data.loan_mortgage);
+            // setCalMortgageResult(data.mortgageCalResult.data.loan_mortgage);
+            setCalMortgageResult(data.mortgageCalResult.mortgage);
             // navigator("/calcul-mortgage/result");     
         })
         .catch((error)=>{
@@ -136,7 +137,7 @@ const CalculationMortgage=()=>{
                     />
                 </InputDiv>
                 
-                <InputDiv>
+                {/* <InputDiv>
                     <CalMortLabel for="hoaFee">Home Owner Association Fee</CalMortLabel>
                     <Input 
                         type="text" 
@@ -146,7 +147,7 @@ const CalculationMortgage=()=>{
                         required={true}     
                         handleChange={handleChange}            
                     />
-                </InputDiv>    
+                </InputDiv>     */}
                 {/* <Submit type="submit" 
                         onClick={(e)=>handleSubmit(e, formData)}>Calculate</Submit> */}
                 <Submit type="submit">Calculate</Submit>
