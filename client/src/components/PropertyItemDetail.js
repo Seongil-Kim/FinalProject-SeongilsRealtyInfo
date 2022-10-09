@@ -19,7 +19,7 @@ const PropertyItemDetail=({propertyDetailInfoObj})=>{
     // errorHandler("error-receive");
     });
 
-    // Request loan opportunity and interest info
+    // Request loan opportunity and interest info.
     fetch(`/api/mortgage/check-rate?price=${propertyDetailInfoObj.price}&zip=${propertyDetailInfoObj.address.postal_code}`)
     .then((res)=>res.json())
     .then((data)=>{            

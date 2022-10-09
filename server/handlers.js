@@ -127,11 +127,11 @@ const getRealtyInfoDetail= async (req, res) => {
 
 const getRateInfo=async(req, res) =>{
 
-  // const reqbody=req.query;
+  
   const query_price=req.query.price;
   const query_zip=req.query.zip;
   
-  // console.log("req body: ", reqbody);
+  
   // console.log("query price: ", query_price);
   // console.log("query zip: ", query_zip);
   
