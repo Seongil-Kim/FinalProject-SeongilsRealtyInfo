@@ -20,7 +20,7 @@ const PropertyItemDetail=({propertyDetailInfoObj})=>{
     });
 
     // Request loan opportunity and interest info
-    fetch(`/api/mortgage/check-rate`)
+    fetch(`/api/mortgage/check-rate?price=${propertyDetailInfoObj.price}&zip=${propertyDetailInfoObj.address.postal_code}`)
     .then((res)=>res.json())
     .then((data)=>{            
         console.log("Rate Info: ", data.rateInfo);            
@@ -34,6 +34,7 @@ const PropertyItemDetail=({propertyDetailInfoObj})=>{
         <PropertyItemDetailShowDiv>
             <PropertyItemDetailShow>
                 
+                {/* Info From Property List Element */}
                 Property Id: {propertyDetailInfoObj.property_id} <br/>
                 Property Type: {propertyDetailInfoObj.prop_type} <br/>
                 Property Status: {propertyDetailInfoObj.prop_status} <br/>
@@ -54,6 +55,10 @@ const PropertyItemDetail=({propertyDetailInfoObj})=>{
 
                 RDC Web: {propertyDetailInfoObj.rdc_web} <br/> 
 
+                {/* Info From Property Detail fetched by property_id */}
+
+
+                {/* Info from Rate Info fetched by zip code and property price(assumed 80% loan percent) */}
 
                 
             </PropertyItemDetailShow>

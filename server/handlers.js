@@ -98,7 +98,7 @@ const getRealtyInfoFeedOnCity= async (req, res) =>{
 
 const getRealtyInfoDetail= async (req, res) => {
   
-  console.log("parameter: ", req.params.propertyId);
+  // console.log("parameter: ", req.params.propertyId);
 
   // Get Property Detail
   const options = {
@@ -126,6 +126,15 @@ const getRealtyInfoDetail= async (req, res) => {
 }
 
 const getRateInfo=async(req, res) =>{
+
+  // const reqbody=req.query;
+  const query_price=req.query.price;
+  const query_zip=req.query.zip;
+  
+  // console.log("req body: ", reqbody);
+  // console.log("query price: ", query_price);
+  // console.log("query zip: ", query_zip);
+  
   const options = {
     method: 'GET',
     url: 'https://realty-in-us.p.rapidapi.com/mortgage/check-rates',
@@ -134,9 +143,9 @@ const getRateInfo=async(req, res) =>{
       points: 'all',
       loanPurpose: 'purchase',
       loanTypes: 'ALL',
-      loanPercent: '80.2',
-      propertyPrice: '250000',
-      zip: '90230'
+      loanPercent: '80',
+      propertyPrice: query_price,
+      zip: query_zip
     },
     headers: {
       'X-RapidAPI-Key': '0494b40be9msh640180524ca3679p12f607jsnd957a78e053a',
@@ -151,7 +160,7 @@ const getRateInfo=async(req, res) =>{
     // console.log(body);
   });
 
-  console.log("server rateInfo: ", JSON.parse(rateInfo));
+  // console.log("server rateInfo: ", JSON.parse(rateInfo));
 
   rateInfo
         ? res.status(200).json({ status: 200, rateInfo: JSON.parse(rateInfo) })
@@ -163,7 +172,7 @@ const getRateInfo=async(req, res) =>{
 
 const calculMortgage= async (req, res) =>{
     const calculBaseObj=req.body;
-    console.log("serverSide Calcul Obj: ", calculBaseObj);
+    // console.log("serverSide Calcul Obj: ", calculBaseObj);
 
     // It does not provide the right result. So I change it to other endpoints.
     // From mortgage/v2/calculate To mortgage/calculate(Deprecating)
@@ -208,7 +217,7 @@ const calculMortgage= async (req, res) =>{
     const mortgageCalResult=await request(options, function (error, response, body) {
       if (error) throw new Error(error);
     
-      console.log("body: ", body);
+      // console.log("body: ", body);
     });
 
     console.log("fetch response: ", JSON.parse(mortgageCalResult));
