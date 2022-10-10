@@ -44,7 +44,7 @@ const CityListCombo=styled.select`
     width: 50%;
     height: 25px;
     
-    background-color: grey;
+    background-color: #d0b5f7;
     
 `
 

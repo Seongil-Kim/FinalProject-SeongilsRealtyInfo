@@ -26,7 +26,6 @@ const { v4: uuidv4 } = require("uuid");
 
 const getCityList = async (req, res) => {
 
-
     // console.log("getCityList");
     const client = new MongoClient(MONGO_URI, options);
 
@@ -68,7 +67,7 @@ const getRealtyInfoFeedOnCity= async (req, res) =>{
           city: city,
           state_code: stateCode,
           offset: '0',
-          limit: '10',
+          limit: '50',
           sort: 'relevance'
         },
         headers: {

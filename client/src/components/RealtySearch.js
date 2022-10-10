@@ -1,13 +1,16 @@
 import GlobalStyles from "./GlobalStyles";
 import styled from "styled-components";
 
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import {CityContext} from "./CityContext";
 
 import SelectCity from "./SelectCity";
 import PropertyItem from "./PropertyItem";
 import PropertyItemDetail from "./PropertyItemDetail";
+
+import ReactScrollableFeed from 'react-scrollable-feed';
+
 
 const RealtySearch = () =>
 {
@@ -61,7 +64,26 @@ const RealtySearch = () =>
 
     console.log("state variable-propertyItemForDetail: ", propertyItemForDetail);
 
-    
+    useEffect(()=>{
+
+        fetch(`/api/realty-info-feed/New%20York%20City?stateCode=NY`)
+        .then((res)=>res.json())
+        .then((data)=>{            
+            // console.log("feed data: ", data.realtyFeed);
+            // const cityPropertyObj={
+            //     [selectedCity[0].city]: data.realtyFeed.properties
+            // }
+            // console.log("cityPropertyObj: ", cityPropertyObj);
+            // saveCityPropertyListContext(cityPropertyObj);
+            console.log("data properties: ", data.realtyFeed.properties);
+            setPropertyListObjInCity(data.realtyFeed.properties);
+        })        
+        .catch((error)=>{
+            console.error("Error: ", error);
+        // errorHandler("error-receive");
+        });
+
+    },[]);
     
     return (
         <>
@@ -71,18 +93,20 @@ const RealtySearch = () =>
                     <SelectCity showPropertyListInCity={showPropertyListInCity} />
                 </SelectCityDiv>
 
-                <CityPropertyFetchResultDiv>
-                    {propertyListObjsInCity.length!==0? 
-                        propertyListObjsInCity.map((property)=>{
-                            // return <PropertyItem propertyItem={property} 
-                            //         showDetail={showPropertyDetailOnRightSide}/>
-                            return <PropertyItem propertyItem={property} 
-                                       showDetail={setPropertyItemForDetail}/>
-                        })
-                        :
-                        null                        
-                     }
-                </CityPropertyFetchResultDiv>
+                <ReactScrollableFeed>
+                    <CityPropertyFetchResultDiv>
+                        {propertyListObjsInCity.length!==0? 
+                            propertyListObjsInCity.map((property)=>{
+                                // return <PropertyItem propertyItem={property} 
+                                //         showDetail={showPropertyDetailOnRightSide}/>
+                                return <PropertyItem propertyItem={property} 
+                                        showDetail={setPropertyItemForDetail}/>
+                            })
+                            :
+                            null                        
+                        }
+                    </CityPropertyFetchResultDiv>
+                </ReactScrollableFeed>
 
             </LeftSideSearch>
                         
@@ -105,8 +129,7 @@ const SelectCityDiv=styled.div`
     width: 100%;
     height: 50px;    
     
-    background-color: red;
-    
+    background-color: #5404c4;    
 
     display: flex;
     flex-direction: column;
@@ -119,7 +142,7 @@ const CityPropertyFetchResultDiv=styled.div`
     width: 100%;
     height: calc(100% - 50px);    
     
-    background-color: brown;    
+    background-color: #9e54f7;    
     box-sizing: border-box;
 
     display: flex;
@@ -132,7 +155,7 @@ const CityPropertyFetchResultDiv=styled.div`
 const RightSideDetail=styled.div`
     width: 80%;
     height: 100%;
-    background-color: black;
+    background-color: #ab7bed;
 
     color: white;
 `
