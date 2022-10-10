@@ -66,7 +66,7 @@ const RealtySearch = () =>
 
     useEffect(()=>{
 
-        fetch(`/api/realty-info-feed/New%20York%20City?stateCode=NY`)
+        fetch(`/api/realty-info-feed/Los%20Angeles?stateCode=CA`)
         .then((res)=>res.json())
         .then((data)=>{            
             // console.log("feed data: ", data.realtyFeed);
