@@ -122,8 +122,7 @@ const RealtySearch = () =>
 
 const LeftSideSearch=styled.div`
     width: 20%;
-    height: 100%;
-    background-color: yellow; 
+    height: 100%;    
 `
 const SelectCityDiv=styled.div`
     width: 100%;
