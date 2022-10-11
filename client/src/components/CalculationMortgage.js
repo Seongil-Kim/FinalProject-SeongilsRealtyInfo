@@ -63,79 +63,92 @@ const CalculationMortgage=()=>{
         <MortgageCalDiv>
             <StyledForm onSubmit={(e) => handleSubmit(e, formData)}>
 
-                <InputDiv>
+                <InputRowDiv>
                     <CalMortLabel for="insuranceCost">Monthly Insurance Payment($)</CalMortLabel>
-                    <Input 
-                        type="text" 
-                        placeholder=""
-                        name={"insuranceCost"}
-                        id={"insuranceCost"} 
-                        required={true}
-                        handleChange={handleChange} 
-                        
-                    />
-                </InputDiv>
+                    <InputDiv>
+                        <Input
+                            type="text" 
+                            placeholder=""
+                            name={"insuranceCost"}
+                            id={"insuranceCost"} 
+                            required={true}
+                            handleChange={handleChange} 
+                            
+                        />
+                    </InputDiv>
+                </InputRowDiv>
 
-                <InputDiv>
+                <InputRowDiv>
                     <CalMortLabel for="propertyTaxRate">Annual Property Tax(%)</CalMortLabel>
-                    <Input 
-                        type="text" 
-                        placeholder=""
-                        name={"propertyTaxRate"}
-                        id={"propertyTaxRate"} 
-                        required={true}   
-                        handleChange={handleChange}              
-                    />
+                    <InputDiv>
+                        <Input
+                            type="text" 
+                            placeholder=""
+                            name={"propertyTaxRate"}
+                            id={"propertyTaxRate"} 
+                            required={true}   
+                            handleChange={handleChange}              
+                        />
+                    </InputDiv>
                     
-                </InputDiv>
+                </InputRowDiv>
 
-                <InputDiv>
+                <InputRowDiv>
                     <CalMortLabel for="downPayment">Down Payment($)</CalMortLabel>
-                    <Input 
-                        type="text" 
-                        placeholder=""
-                        name={"downPayment"}
-                        id={"downPayment"} 
-                        required={true}   
-                        handleChange={handleChange}              
-                    />
-                </InputDiv>
+                    <InputDiv>
+                        <Input
+                            type="text" 
+                            placeholder=""
+                            name={"downPayment"}
+                            id={"downPayment"} 
+                            required={true}   
+                            handleChange={handleChange}              
+                        />
+                    </InputDiv>
+
+                </InputRowDiv>
                 
-                <InputDiv>
+                <InputRowDiv>
                     <CalMortLabel for="realtyPrice">Purchase Price($)</CalMortLabel>
-                    <Input 
-                        type="text" 
-                        placeholder=""
-                        name={"realtyPrice"}
-                        id={"realtyPrice"} 
-                        required={true}       
-                        handleChange={handleChange}          
-                    />
-                </InputDiv>
+                    <InputDiv>
+                        <Input
+                            type="text" 
+                            placeholder=""
+                            name={"realtyPrice"}
+                            id={"realtyPrice"} 
+                            required={true}       
+                            handleChange={handleChange}          
+                        />
+                    </InputDiv>
+                </InputRowDiv>
 
-                <InputDiv>
+                <InputRowDiv>
                     <CalMortLabel for="repayTerm">Repayment Term(yr)</CalMortLabel>
-                    <Input 
-                        type="text" 
-                        placeholder=""
-                        name={"repayTerm"}
-                        id={"repayTerm"} 
-                        required={true}  
-                        handleChange={handleChange}               
-                    />
-                </InputDiv>
+                    <InputDiv>
+                        <Input
+                            type="text" 
+                            placeholder=""
+                            name={"repayTerm"}
+                            id={"repayTerm"} 
+                            required={true}  
+                            handleChange={handleChange}               
+                        />
+                    </InputDiv>
+                </InputRowDiv>
 
-                <InputDiv>
+                <InputRowDiv>
                     <CalMortLabel for="interestRate">Interest Rate(%)</CalMortLabel>
-                    <Input 
-                        type="text" 
-                        placeholder=""
-                        name={"interestRate"}
-                        id={"interestRate"} 
-                        required={true}    
-                        handleChange={handleChange}             
-                    />
-                </InputDiv>
+                    <InputDiv>
+                        <Input
+                            type="text" 
+                            placeholder=""
+                            name={"interestRate"}
+                            id={"interestRate"} 
+                            required={true}    
+                            handleChange={handleChange}             
+                        />
+                    </InputDiv>
+                </InputRowDiv>
                 
                 {/* <InputDiv>
                     <CalMortLabel for="hoaFee">Home Owner Association Fee</CalMortLabel>
@@ -168,14 +181,21 @@ const MortgageCalDiv=styled.div`
     align-items: center;
 
 
-    border: 2px solid blue;
+    border: 2px solid var(--primary-color);
 `
 
 const Submit = styled.button`
-    background-color: #d1560e;
+
+    width: 440px;
+    height: 30px;
+
+    background-color: var(--menu-button-background-color);
+    color: white;
     border: none;
     margin-top: 5px;
-    border-radius: 2px;
+    border-radius: 10px;
+
+    font-weight: bold;
 
     &:disabled{
         color: var(--color-orange);
@@ -185,7 +205,6 @@ const Submit = styled.button`
         cursor: pointer;
     }
 `
-
 const StyledForm = styled.form`
     margin-top: 24px;
     border: 5px solid var(--color-alabama-crimson);
@@ -195,21 +214,48 @@ const StyledForm = styled.form`
     flex-direction: column;
     margin-left: 50px;
 `
-
-const InputDiv=styled.div`
+const InputRowDiv=styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: center;
 `
-
 const CalMortLabel=styled.label`
-    
+    width: 250px;
+    height: 30px;
+    background-color: var(--primary-color);
+    color: white;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding-left: 10px;
+
+    border-radius: 10px;
+`
+
+const InputDiv=styled.div`
+    width: 200px;
+    height: 30px;    
+
+    margin-bottom: 16px;
 `
 
 const MortgageCalResultDiv=styled.div`
+    width: 200px;
+    height: 305px;
 
+    background-color: #d9c4f2;
+    
+    margin-right: 50px;
+    padding: 10px 0px 0px 10px;
+    
 `
 
 
