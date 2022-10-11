@@ -76,6 +76,4 @@ const LogSignInOutButton=styled.button`
     }
 `
 
-
-
 export default NavBar;

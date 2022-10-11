@@ -5,6 +5,10 @@ const {MongoClient}=require("mongodb");
 
 require("dotenv").config();
 
+const {
+  sendEmailToAdmin
+} = require("./node-mailer");
+
 // console.log(process.env.MONGO_URI);
 
 const { MONGO_URI, XRapidAPIKey } = process.env;
@@ -167,8 +171,6 @@ const getRateInfo=async(req, res) =>{
 
 }
 
-
-
 const calculMortgage= async (req, res) =>{
     const calculBaseObj=req.body;
     // console.log("serverSide Calcul Obj: ", calculBaseObj);
@@ -230,6 +232,8 @@ const saveUserFeedback= async (req, res) =>{
     
     console.log("userFeedbackObj: ", req.body);
 
+    sendEmailToAdmin(req.body);
+
     const generatedId=uuidv4();
 
     const feedbackObj={_id: generatedId, ...req.body};
@@ -237,8 +241,7 @@ const saveUserFeedback= async (req, res) =>{
     const client = new MongoClient(MONGO_URI, options);
 
     try {
-        // creates a new client
-        
+        // creates a new client       
       
         await client.connect();
         
