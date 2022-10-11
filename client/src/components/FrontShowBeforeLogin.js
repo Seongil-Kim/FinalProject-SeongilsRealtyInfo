@@ -1,25 +1,32 @@
-import FrontShowImageBox from "./FrontShowImageBox"
+import styled from "styled-components";
 
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+
+import FrontShowImageBox from "./FrontShowImageBox"
 
 const FrontShowBeforeLogin=()=>{
     
 
     return (
         <>
-            <Tippy content="If you sign in, you can get more realty information based on several cities.">
+            <StyledTippy content="If you sign in, you can get more realty information based on several cities.">
                 <FrontShowImageBox realtyInfo={"/images/newyork1.jpg"}/>
-            </Tippy>
-            <Tippy content="If you sign in, you can get more realty information based on several cities.">
+            </StyledTippy>
+            <StyledTippy content="If you sign in, you can get more realty information based on several cities.">
                 <FrontShowImageBox realtyInfo={"/images/newyork2.jpg"}/>
-            </Tippy>
-            <Tippy content="If you sign in, you can get more realty information based on several cities.">
+            </StyledTippy>
+            <StyledTippy content="If you sign in, you can get more realty information based on several cities.">
                 <FrontShowImageBox realtyInfo={"/images/newyork3.jpg"}/>
-            </Tippy>
+            </StyledTippy>
         </>
     );
 
 }
+
+const StyledTippy=styled(Tippy)`
+    background-color: black;
+    color: white;
+`
 
 export default FrontShowBeforeLogin;

@@ -36,9 +36,12 @@ const App = () => {
       <GlobalStyles />
       
       <Router>
-        <NavBarDiv>
-          <NavBar isUser={isUser}/>
-        </NavBarDiv>
+
+        { !isLoading && 
+          <NavBarDiv>
+            <NavBar isUser={isUser}/>
+          </NavBarDiv>
+        }
         
         { isLoading ? 
           <CircularProgressDiv>
@@ -65,7 +68,7 @@ const App = () => {
                 <Route path="/userfeedback" element={<UserFeedback user={user}/>} />
               </Routes>
             
-          </FrontShowAfterLoginDiv>) 
+          </FrontShowAfterLoginDiv>)
          
         }
         </Router>
