@@ -52,14 +52,14 @@ const UserFeedback=({user})=>{
     
     useEffect(()=>{
         setFormData({            
-            userName: `${user.given_name} ${user.family_name}`,
+            // userName: `${user.given_name} ${user.family_name}`,
             email: user.email
         });
     },[]);
 
     return (
         <StyledForm onSubmit={(e) => handleSubmit(e, formData)}>
-            <InputDiv>
+            {/* <InputDiv>
                 <FeedbackLabel for="userName">User Name</FeedbackLabel>
                 <InputDisable 
                     type="text" 
@@ -69,24 +69,25 @@ const UserFeedback=({user})=>{
                     value={`${user.given_name} ${user.family_name}`}
                     required={true}
                     handleChange={handleChange}
-                    readonly
-                    
+                    readonly                    
                 />
-            </InputDiv>
-            <InputDiv>
+            </InputDiv> */}
+            <InputRowDiv>
                 <FeedbackLabel for="email">E-mail</FeedbackLabel>
-                <InputDisable 
-                    type="text" 
-                    placeholder=""
-                    name={"email"}
-                    id={"email"} 
-                    value={user.email}
-                    required={true}
-                    handleChange={handleChange} 
-                    readonly
-                />
-            </InputDiv>
-            <InputDiv>
+                <InputDiv>
+                    <InputDisable 
+                        type="text" 
+                        placeholder=""
+                        name={"email"}
+                        id={"email"} 
+                        value={user.email}
+                        required={true}
+                        handleChange={handleChange} 
+                        readonly
+                    />
+                </InputDiv>
+            </InputRowDiv>
+            <InputRowDiv>
                 <LabelForTextAreaDiv>
                     <FeedbackLabel for="feedback">Feedback</FeedbackLabel>
                 </LabelForTextAreaDiv>                
@@ -99,7 +100,7 @@ const UserFeedback=({user})=>{
                     // handleChange={handleChange} 
                     onChange={(e) => handleChange("feedback", e.target.value)}                
                 />
-            </InputDiv>
+            </InputRowDiv>
             
              <Submit type="submit">Submit</Submit>
         </StyledForm>
@@ -108,10 +109,16 @@ const UserFeedback=({user})=>{
 }
 
 const Submit = styled.button`
-    background-color: #d1560e;
+
+    height: 30px;
+
+    font-weight: bold;
+
+    background-color: var(--menu-button-background-color);
+    color: white;
     border: none;
-    margin-top: 5px;
-    border-radius: 2px;
+    margin-top: 15px;
+    border-radius: 10px;
 
     &:disabled{
         color: var(--color-orange);
@@ -132,23 +139,46 @@ const StyledForm = styled.form`
     margin-left: 50px;
 `
 
+const InputRowDiv=styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+`
+
+const InputDisable=styled(Input)`
+    pointer-events: none;   //We use this in React, instead of readonly option.
+    background-color: grey;    
+`
+
 const InputDiv=styled.div`
+    width: 200px;
+    height: 50px;
+    
+    position: relative;
+    top: -4px;
+    
+`
+
+const FeedbackLabel=styled.label`
+    width: 100px;
+    height: 30px;
+    background-color: var(--primary-color);
+    color: white;
+
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: center;
-`
 
-const InputDisable=styled(Input)`
-    pointer-events: none;   //We use this in React, instead of readonly option.
-    background-color: grey;
-`
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding-left: 10px;
 
-const FeedbackLabel=styled.label`
-    
+    border-radius: 10px;
 `
-
 const LabelForTextAreaDiv=styled.div`
     display: flex;
     flex-direction: column;
@@ -158,7 +188,7 @@ const LabelForTextAreaDiv=styled.div`
 `
 
 const TextArea=styled.textarea`
-    width: 400px;
+    width: 300px;
     height: 150px;
 `
 
